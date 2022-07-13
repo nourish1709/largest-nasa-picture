@@ -1,6 +1,7 @@
-package com.nourish1709.largestnasapicture;
+package com.nourish1709.largestnasapicture.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,11 +16,12 @@ import java.util.Optional;
 import static org.springframework.http.HttpHeaders.LOCATION;
 
 @Service
-public class LargestPictureService {
+@RequiredArgsConstructor
+public class SimpleLargestPictureService implements LargestPictureService {
 
-    private static final String LINK =
-            "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=%d&api_key=DEMO_KEY";
+    private final RestTemplate restTemplate;
 
+    @Override
     public String findLargestPictureLocation(int sol) {
         record Photos(Collection<Photo> photos) {
             record Photo(@JsonProperty("img_src") String imgSrc) {
@@ -32,7 +34,6 @@ public class LargestPictureService {
                 .queryParam("sol", sol)
                 .build()
                 .toUri();
-        final RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<Photos> getPhotosResponse = restTemplate
                 .getForEntity(uri, Photos.class);

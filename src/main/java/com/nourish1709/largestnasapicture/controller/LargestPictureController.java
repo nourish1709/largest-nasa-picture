@@ -1,5 +1,6 @@
-package com.nourish1709.largestnasapicture;
+package com.nourish1709.largestnasapicture.controller;
 
+import com.nourish1709.largestnasapicture.service.LargestPictureService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
